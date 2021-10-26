@@ -1,0 +1,6 @@
+language: java
+jdk: oraclejdk11
+script: 
+- cd my-profile-backend
+- ./mvnw clean install -B
+dist: trusty
