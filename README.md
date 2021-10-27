@@ -59,6 +59,8 @@ Add the dependencies :
 * Spring Data JPA
 * H2 for memory databases
 
+### User 
+
 ## Run
 
 To run and test the kata, you can checkout the git project and run the maven command
