@@ -1,5 +1,7 @@
 package com.wema.myprofile.domain;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -11,16 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class Skill {
 
 	private Long id;
 	
 	@NotNull
-	private String city;
+	private String label;
 	
-	@NotNull
-	private String region;
+	private String description;
 	
-	@NotNull
-	private String country;
+	@Min(1)
+    @Max(10)
+	private int expertiseLevel;
+
 }

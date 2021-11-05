@@ -1,6 +1,6 @@
 package com.wema.myprofile.domain;
 
-import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +11,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class Education {
 
 	private Long id;
-	
-	@NotNull
-	private String city;
-	
-	@NotNull
-	private String region;
-	
-	@NotNull
-	private String country;
+	private String school;
+	private String studyLevel;
+	private String studySpecialization;
+	private Date startDate;
+	private Date endDate;
+	private String description;
 }

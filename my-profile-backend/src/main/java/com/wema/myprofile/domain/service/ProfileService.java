@@ -2,13 +2,10 @@ package com.wema.myprofile.domain.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.wema.myprofile.domain.ProfileDomain;
+import com.wema.myprofile.domain.Profile;
 import com.wema.myprofile.domain.port.spi.ProfilePersistencePort;
 import com.wema.myprofile.domain.ports.api.ProfileServicePort;
 
-@Service
 public class ProfileService implements ProfileServicePort {
 
 	private final ProfilePersistencePort profilePersistencePort;
@@ -18,22 +15,22 @@ public class ProfileService implements ProfileServicePort {
 	}
 
 	@Override
-	public ProfileDomain addProfile(ProfileDomain profile) {
+	public Profile addProfile(Profile profile) {
 		return profilePersistencePort.addProfile(profile);
 	}
 
 	@Override
-	public ProfileDomain updateProfile(ProfileDomain profile) {
+	public Profile updateProfile(Profile profile) {
 		return profilePersistencePort.updateProfile(profile);
 	}
 
 	@Override
-	public List<ProfileDomain> getProfiles() {
+	public List<Profile> getProfiles() {
 		return profilePersistencePort.getProfiles();
 	}
 
 	@Override
-	public ProfileDomain getProfileById(Long profileId) {
+	public Profile getProfileById(Long profileId) {
 		return profilePersistencePort.getProfileById(profileId);
 	}
 

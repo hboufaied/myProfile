@@ -1,6 +1,10 @@
 package com.wema.myprofile.domain;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,16 +15,20 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Address {
+public class Certification {
 
 	private Long id;
 	
 	@NotNull
-	private String city;
+	private String name;
 	
 	@NotNull
-	private String region;
+	private String organization;
 	
 	@NotNull
-	private String country;
+    @JsonFormat(pattern="dd/MM/yyyy")
+	private Date date;
+	
+	private String identifier;
+	private String link;
 }

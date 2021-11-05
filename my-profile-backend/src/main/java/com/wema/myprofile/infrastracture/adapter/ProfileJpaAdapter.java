@@ -3,49 +3,45 @@ package com.wema.myprofile.infrastracture.adapter;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.wema.myprofile.domain.ProfileDomain;
+import com.wema.myprofile.domain.Profile;
 import com.wema.myprofile.domain.port.spi.ProfilePersistencePort;
-import com.wema.myprofile.infrastracture.entity.Profile;
+import com.wema.myprofile.infrastracture.entity.ProfileDto;
 import com.wema.myprofile.infrastracture.mapper.ProfileMapper;
 import com.wema.myprofile.infrastracture.repository.ProfileRepository;
 
-@Service
 public class ProfileJpaAdapter implements ProfilePersistencePort {
 
-	private final ProfileRepository profileRepository;
+	@Autowired
+	private ProfileRepository profileRepository;
 
-	public ProfileJpaAdapter(ProfileRepository profileRepository) {
-		this.profileRepository = profileRepository;
+	@Override
+	public Profile addProfile(Profile profile) {
+
+		ProfileDto profileDto = ProfileMapper.INSTANCE.profileToProfileDto(profile);
+		ProfileDto profileSaved = this.profileRepository.save(profileDto);
+		return ProfileMapper.INSTANCE.profileDtoToProfile(profileSaved);
 	}
 
 	@Override
-	public ProfileDomain addProfile(ProfileDomain profileDomain) {
-
-		Profile profile = ProfileMapper.INSTANCE.profileDomainToProfile(profileDomain);
-		Profile profileSaved = this.profileRepository.save(profile);
-		return ProfileMapper.INSTANCE.profileToProfileDomain(profileSaved);
+	public Profile updateProfile(Profile profile) {
+		return addProfile(profile);
 	}
 
 	@Override
-	public ProfileDomain updateProfile(ProfileDomain profileDomain) {
-		return addProfile(profileDomain);
+	public List<Profile> getProfiles() {
+
+		List<ProfileDto> profilesDto = this.profileRepository.findAll();
+		return ProfileMapper.INSTANCE.profileDtoListToProfileList(profilesDto);
 	}
 
 	@Override
-	public List<ProfileDomain> getProfiles() {
+	public Profile getProfileById(Long profileId) {
 
-		List<Profile> profiles = this.profileRepository.findAll();
-		return ProfileMapper.INSTANCE.profileListToProfileDomainList(profiles);
-	}
-
-	@Override
-	public ProfileDomain getProfileById(Long profileId) {
-
-		Optional<Profile> profile = this.profileRepository.findById(profileId);
-		if (profile.isPresent()) {
-			return ProfileMapper.INSTANCE.profileToProfileDomain(profile.get());
+		Optional<ProfileDto> profileDto = this.profileRepository.findById(profileId);
+		if (profileDto.isPresent()) {
+			return ProfileMapper.INSTANCE.profileDtoToProfile(profileDto.get());
 		}
 
 		return null;

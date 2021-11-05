@@ -2,15 +2,15 @@ package com.wema.myprofile.domain.port.spi;
 
 import java.util.List;
 
-import com.wema.myprofile.domain.ProfileDomain;
+import com.wema.myprofile.domain.Profile;
 
 public interface ProfilePersistencePort {
 	
-	ProfileDomain addProfile(ProfileDomain profile);
+	Profile addProfile(Profile profile);
 
-	ProfileDomain updateProfile(ProfileDomain profile);
+	Profile updateProfile(Profile profile);
 
-	List<ProfileDomain> getProfiles();
+	List<Profile> getProfiles();
 
-	ProfileDomain getProfileById(Long profileId);
+	Profile getProfileById(Long profileId);
 }
