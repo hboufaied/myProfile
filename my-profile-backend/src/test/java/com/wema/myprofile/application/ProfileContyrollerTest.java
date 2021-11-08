@@ -1,61 +1,121 @@
 package com.wema.myprofile.application;
 
+import static io.restassured.http.ContentType.JSON;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+
+import java.util.GregorianCalendar;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 
 import com.wema.myprofile.ProfileProvider;
-import com.wema.myprofile.configuration.ProfileConfiguration;
+import com.wema.myprofile.application.exception.ProfileExceptionsHandler;
 import com.wema.myprofile.domain.Profile;
 import com.wema.myprofile.domain.ports.api.ProfileServicePort;
 
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-
-import org.hamcrest.Matchers;
-
 @WebMvcTest(ProfileController.class)
 @ContextConfiguration(classes = { ProfileModelAssembler.class })
 class ProfileContyrollerTest {
 
-	@MockBean
-	ProfileServicePort profileService;
+	@Mock
+	private ProfileServicePort profileService;
 
-	@Autowired
-	private MockMvc mockMvc;
+	private ProfileController profileController;
+
+	@InjectMocks
+	private ProfileExceptionsHandler profileExceptionsHandler;
+
+	@InjectMocks
+	private ProfileModelAssembler profileModelAssembler;
 
 	@BeforeEach
 	void setUp() {
-		RestAssuredMockMvc.mockMvc(mockMvc);
+		profileController = new ProfileController(profileService, profileModelAssembler);
+		RestAssuredMockMvc.standaloneSetup(profileController, profileExceptionsHandler);
 	}
 
-	//@Test
-	void shouldCreateNewProfileWhenDataIsValid() {
+	@AfterEach
+	public void resetRestAssuredMockMvcStandalone() {
+		Mockito.reset(profileService);
+	}
 
+	@Test
+	void shouldReturnBadRequestWhenCreateProfileWhithInvalidData() {
+		given()
+			.contentType("application/json").body("{}").
+		when()
+			.post("/api/profiles").
+		then()
+			.log().ifValidationFails()
+			.statusCode(BAD_REQUEST.value()).contentType(JSON)
+			.body("errors.size()", equalTo(4))
+			.body("errors.firstName", equalTo("First name can't be blank"))
+			.body("errors.lastName", equalTo("Last name can't be blank"))
+			.body("errors.profileTitle", equalTo("Profile title can't be blank"))
+			.body("errors.birthDate", equalTo("The date of birth can't be blank"));
+	}
+
+	@Test
+	void shouldReturnBadRequestWhenCreateProfileWhithDateOfBithNotInThePast() {
+
+		GregorianCalendar gc = new GregorianCalendar(2021, 11, 30);
 		Profile profile = ProfileProvider.getCreatedProfile();
+		profile.setId(11L);
+		profile.setBirthDate(gc.getTime());
 		when(profileService.addProfile(any(Profile.class))).thenReturn(profile);
 
-		RestAssuredMockMvc.given().contentType("application/json").body("{}").when().post("/api/profiles").then().statusCode(201).header("Location", Matchers.containsString("/api/books/42"));
+		given()
+			.contentType("application/json").body(profile).
+		when()
+			.post("/api/profiles").
+		then()
+			.log().ifValidationFails()
+			.statusCode(BAD_REQUEST.value())
+			.contentType(JSON)
+			.body("errors.size()", equalTo(1))
+			.body("errors.birthDate", equalTo("The date of birth must be in the past."));
 	}
 
-	/*@Test
-	void shouldRetreiveAllProfiles() {
+	@Test
+	void shouldReturnRessourceCreatedWhenCreateProfileWhithValidData() {
 
-		when(profileService.getProfiles()).thenReturn(List.of(ProfileProvider.getCreatedProfile()));
+		Profile profile = ProfileProvider.getCreatedProfile();
+		profile.setId(11L);
+		when(profileService.addProfile(any(Profile.class))).thenReturn(profile);
 
-		RestAssuredMockMvc.when().get("/api/profiles").then().statusCode(200).body("$.size()", Matchers.equalTo(1))
-				.body("[0].id", Matchers.equalTo(42)).body("[0].isbn", Matchers.equalTo("42"))
-				.body("[0].author", Matchers.equalTo("Duke"))
-				.body("[0].title", Matchers.equalTo("REST Assured With Spring Boot"));
-	}*/
+		given()
+			.contentType("application/json").body(profile).
+		when()
+			.post("/api/profiles").
+		then()
+			.log().ifValidationFails()
+			.statusCode(CREATED.value())
+			.contentType(JSON)
+			.body("firstName", equalTo(profile.getFirstName()))
+			.body("lastName", equalTo(profile.getLastName()))
+			.body("profileTitle", equalTo(profile.getProfileTitle()))
+			.body("address.city", equalTo(profile.getAddress().getCity()))
+			.body("experiences[0].title", equalTo(profile.getExperiences().get(0).getTitle()))				
+			.body("experiences[0].company.name", equalTo(profile.getExperiences().get(0).getCompany().getName()))
+			.body("experiences[0].company.address.city",
+						equalTo(profile.getExperiences().get(0).getCompany().getAddress().getCity()))
+			.body("links[0].rel", equalTo("self"))
+			.body("links[0].href", equalTo("http://localhost/api/profiles/11"))
+			.body("links[1].rel", equalTo("/api/profiles"))
+			.body("links[1].href", equalTo("http://localhost/api/profiles"));
+
+	}
 }

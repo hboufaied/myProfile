@@ -22,18 +22,18 @@ public class Profile {
 
 	private Long id;
 	
-	@NotBlank(message = "first name can't be blank")
+	@NotBlank(message = "First name can't be blank")
 	private String firstName;
 	
-	@NotBlank(message = "last name can't be blank")
+	@NotBlank(message = "Last name can't be blank")
 	private String lastName;
 	
     @JsonFormat(pattern="dd/MM/yyyy")
-    @NotNull(message = "The date of birth is required.")
+    @NotNull(message = "The date of birth can't be blank")
     @Past(message = "The date of birth must be in the past.")
 	private Date birthDate;
 	
-	@NotBlank(message = "profile title can't be blank")
+	@NotBlank(message = "Profile title can't be blank")
 	private String profileTitle;
 	private String expertise;
 	private String summary;

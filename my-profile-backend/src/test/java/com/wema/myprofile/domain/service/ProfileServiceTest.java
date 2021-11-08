@@ -36,7 +36,6 @@ class ProfileServiceTest {
 		verify(profilePersistencePort).addProfile(profile);
 		assertThat(profileSaved).isNotNull().usingRecursiveComparison().ignoringFieldsMatchingRegexes(".*id")
 				.isEqualTo(profile);
-		;
 	}
 
 }

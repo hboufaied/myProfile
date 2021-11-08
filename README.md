@@ -44,22 +44,32 @@ J'ai donc besoin d'une application explosant des APIs REST avec les fonctionnali
 
 ### Environment
 Was developed and tested with:
-- Maven 3.8.3
-- Eclipse IDE 2021‑09
-- JDK 11
-- Spring Boot 2.5.6
-- Git
-- Travis
+Prerequisites
+Here are the prerequisites for this project. If you don’t have these on your system go ahead and install them if you want to practice on your machine.
+* Java 11
+* IntelliJ IDEA
+* Spring Boot 2.5.6
+* H2 Database
+* JUnit 5
+* Maven
+* Project Lombok
+* Postman
+* REST-assured
+* Git
+* Travis
 
-### Solution
 
-Create a new spring boot project from https://start.spring.io/
-Add the dependencies : 
-* Spring Web
-* Spring Data JPA
-* H2 for memory databases
+- Java Runtime and SDK: We need java runtime and SDK for the Java applications to run. This is the core component for running Java applications.
+- IntelliJ IDEA: We need an IDE to develop this application. There are other IDEs such as NetBeans, Eclipse IDE, etc. Eclipse is an open-source IDE and has very good community support.
+- Spring Boot: Spring is a framework that makes our life easy to develop these java based applications. Spring Boot makes it easy to create stand-alone, production-grade Spring based Applications that you can “just run”.
+- H2 Database: H2 Database is a very fast, open-source, JDBC API, and in-memory database. We use this as a database for our project.
+- JUnit 5: JUnit 5 is the testing framework for Java applications.
+- Maven: We need Maven to install dependencies, package, and build the project.
+- Project Lombok: This is a java library that automatically plugs into your editor and builds tools, spicing up your java. You would never write another getter or equals method again, with one annotation your class has a fully-featured builder, Automate your logging variables, and much more.
+- Postman: Manual testing your APIs
+- REST-assured: Testing and validating REST services in Java
 
-### User 
+### User Stories
 
 ## Run
 
