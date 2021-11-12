@@ -28,7 +28,7 @@ import io.restassured.module.mockmvc.RestAssuredMockMvc;
 
 @WebMvcTest(ProfileController.class)
 @ContextConfiguration(classes = { ProfileModelAssembler.class })
-class ProfileContyrollerTest {
+class ProfileControllerTest {
 
 	@Mock
 	private ProfileServicePort profileService;

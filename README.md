@@ -70,6 +70,7 @@ Here are the prerequisites for this project. If you don’t have these on your s
 - REST-assured: Testing and validating REST services in Java
 
 ### User Stories
+1. As a User, I want to create create a new profile
 
 ## Run
 

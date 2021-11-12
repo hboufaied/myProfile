@@ -1,6 +1,5 @@
 package com.wema.myprofile;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +21,9 @@ public class ProfileProvider {
 		Address addressCompany = Address.builder().city("Paris 7").region("Ile de France").country("France").build();
 		Company company = Company.builder().name("Wema").address(addressCompany).build();
 		Experience experience = Experience.builder().title("Tech Lead").type("FULL_TIME").company(company).build();
-		List<Experience> experiences = new ArrayList();
-		experiences.add(experience);
 
 		Profile profile = Profile.builder().firstName("Hamda").lastName("Hamda").birthDate(new Date())
-				.profileTitle("Developper").address(addressProfile).experiences(experiences).build();
+				.profileTitle("Developper").address(addressProfile).experiences(List.of(experience)).build();
 
 		return profile;
 	}
@@ -56,9 +53,6 @@ public class ProfileProvider {
 		experience.setType(JobType.FULL_TIME);
 		experience.setCompany(company);
 
-		List<ExperienceDto> experiences = new ArrayList();
-		experiences.add(experience);
-
 		ProfileDto profile = new ProfileDto();
 		profile.setId(1L);
 		profile.setFirstName("Hamda");
@@ -66,7 +60,7 @@ public class ProfileProvider {
 		profile.setBirthDate(new Date());
 		profile.setProfileTitle("Developper");
 		profile.setAddress(addressProfile);
-		profile.setExperiences(experiences);
+		profile.setExperiences(List.of(experience));
 		;
 
 		return profile;
