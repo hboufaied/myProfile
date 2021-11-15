@@ -43,6 +43,11 @@ public class ProfileController {
 		this.assembler = assembler;
 	}
 
+	@Operation(summary = "Create a new Profile")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Profile created", content = {
+					@Content(mediaType = "application/json", schema = @Schema(implementation = Profile.class)) }),
+			@ApiResponse(responseCode = "400", description = "Error when creating a Profile", content = @Content) })
 	@PostMapping
 	public ResponseEntity<EntityModel<Profile>> addProfile(@Valid @RequestBody final Profile profile) {
 		EntityModel<Profile> entityModel = assembler.toModel(this.profileService.addProfile(profile));

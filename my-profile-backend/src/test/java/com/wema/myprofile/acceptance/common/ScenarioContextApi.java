@@ -16,7 +16,7 @@ import io.restassured.module.mockmvc.specification.MockMvcRequestSpecification;
 
 @Component
 @Scope(SCOPE_CUCUMBER_GLUE)
-public class ScenarioContextApi {
+public class ScenarioContextApi<T> {
 
 	@LocalServerPort
 	int port;
@@ -24,7 +24,7 @@ public class ScenarioContextApi {
 	private ScenarioReport report;
 	public MockMvcRequestSpecification request;
 	public MockMvcResponse response;
-	public Object postBody = new Object();
+	public T postBody;
 	public Map<String, Object> queryParams = new HashMap<>();
 
 	public ScenarioContextApi() {
@@ -53,5 +53,17 @@ public class ScenarioContextApi {
 
 	public ScenarioReport getReport() {
 		return report;
+	}
+
+	public Object getPostBody() {
+		return postBody;
+	}
+
+	public void setPostBody(T postBody) {
+		this.postBody = postBody;
+	}
+
+	public T getPostBody(Class<T> clazz) {
+		return clazz.cast(getPostBody());
 	}
 }
