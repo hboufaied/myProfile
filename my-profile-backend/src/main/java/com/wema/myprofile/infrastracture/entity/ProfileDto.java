@@ -1,6 +1,6 @@
 package com.wema.myprofile.infrastracture.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,7 +32,7 @@ public class ProfileDto {
 	private String lastName;
 
 	@Column(nullable = false)
-	private Date birthDate;
+	private LocalDate birthDate;
 
 	@Column(nullable = false)
 	private String profileTitle;

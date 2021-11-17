@@ -1,7 +1,8 @@
 package com.wema.myprofile.infrastracture.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -25,16 +26,16 @@ public class ExperienceDto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@Column(nullable = false)
 	private String title;
 
 	@Enumerated(EnumType.STRING)
 	private JobType type;
 
-	@NotNull
-	private Date startDate;
+	@Column(nullable = false)
+	private LocalDate startDate;
 	
-	private Date endDate;
+	private LocalDate endDate;
 	private String description;
 
 	@NotNull

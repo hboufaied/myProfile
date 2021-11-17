@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,10 +71,9 @@ class ProfileControllerTest {
 	@Test
 	void shouldReturnBadRequestWhenCreateProfileWhithDateOfBithNotInThePast() {
 
-		GregorianCalendar gc = new GregorianCalendar(2021, 11, 30);
 		Profile profile = ProfileProvider.getCreatedProfile();
 		profile.setId(11L);
-		profile.setBirthDate(gc.getTime());
+		profile.setBirthDate(LocalDate.of(2021, 11, 30));
 		when(profileService.addProfile(any(Profile.class))).thenReturn(profile);
 
 		given()

@@ -1,7 +1,8 @@
 package com.wema.myprofile.infrastracture.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -22,18 +22,19 @@ public class CertificationDto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@Column(nullable = false)
 	private String name;
 	
-	@NotNull
+	@Column(nullable = false)
 	private String organization;
 	
-	@NotNull
-	private Date date;
+	@Column(nullable = false)
+	private LocalDate date;
 	
 	private String identifier;
 	private String link;
 	
-	@ManyToOne @JoinColumn(name="profile_id", nullable=false)
+	@ManyToOne 
+	@JoinColumn(name="profile_id", nullable=false)
     private ProfileDto profile;
 }

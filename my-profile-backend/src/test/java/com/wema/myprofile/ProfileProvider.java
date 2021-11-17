@@ -1,6 +1,6 @@
 package com.wema.myprofile;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.wema.myprofile.domain.Address;
@@ -22,7 +22,7 @@ public class ProfileProvider {
 		Company company = Company.builder().name("Wema").address(addressCompany).build();
 		Experience experience = Experience.builder().title("Tech Lead").type("FULL_TIME").company(company).build();
 
-		Profile profile = Profile.builder().firstName("Hamda").lastName("Hamda").birthDate(new Date())
+		Profile profile = Profile.builder().firstName("Hamda").lastName("Hamda").birthDate(LocalDate.of(1990, 10, 10))
 				.profileTitle("Developper").address(addressProfile).experiences(List.of(experience)).build();
 
 		return profile;
@@ -57,11 +57,10 @@ public class ProfileProvider {
 		profile.setId(1L);
 		profile.setFirstName("Hamda");
 		profile.setLastName("Hamda");
-		profile.setBirthDate(new Date());
+		profile.setBirthDate(LocalDate.of(1985, 7, 23));
 		profile.setProfileTitle("Developper");
 		profile.setAddress(addressProfile);
 		profile.setExperiences(List.of(experience));
-		;
 
 		return profile;
 	}

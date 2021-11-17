@@ -4,10 +4,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -59,13 +58,8 @@ public class ProfileCreationSteps {
 	public void userWantsToCreateAEmployeeWithTheFollowingAttributes(DataTable profileDt) {
 		Map<String, String> row = profileDt.asMaps(String.class, String.class).get(0);
 
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-		Date birthDate;
-		try {
-			birthDate = formatter.parse(row.get("birthDate"));
-		} catch (ParseException e) {
-			birthDate = new Date();
-		}
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
+		LocalDate birthDate = LocalDate.parse(row.get("birthDate"), formatter);
 
 		Profile profile = Profile.builder().firstName(row.get("firstName")).lastName(row.get("lastName"))
 				.birthDate(birthDate).profileTitle(row.get("profileTitle")).build();
